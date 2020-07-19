@@ -15,6 +15,8 @@
 > 无需sql注入
 >
 > 通用CURD
+>
+> 动态 IOC 代理
 
 V2版改进意见：这里的高复用可以很好地兼容CURD这些基本操作，该项目中的新增和更新接口由于最初数据库的字段原因暂时没有改装成通用接口，但是仍然存在复用的方法
 ----
@@ -27,28 +29,38 @@ V2版改进意见：这里的高复用可以很好地兼容CURD这些基本操�
 5. TK Mybatis
 6. Swagger
 7. Lombok
-8. LayUI
-9. generator
-10. Tomcat 8
-11. Slf4j
-12. Maven
+8. generator
+9. Tomcat 8
+10. Slf4j
+11. Maven
+12. 前端 LayUI
 
 
 #### 3.项目截图
 ##### V2 版 - 改进截图
+
 - 代码简化，使用通用接口代替，减少代码书写
 ![在这里插入图片描述](doc/image/v2/1.jpg)
+
 - 接口预览 - 测试功能正常使用
 ![在这里插入图片描述](doc/image/v2/2.jpg)
+
 ##### V1 版
+
 ![在这里插入图片描述](doc/image/v1/1.jpg)
+
 ![在这里插入图片描述](doc/image/v1/2.jpg)
+
 ![在这里插入图片描述](doc/image/v1/3.jpg)
+
 ![在这里插入图片描述](doc/image/v1/4.jpg)
+
 - 项目架构预览
 ![在这里插入图片描述](doc/image/v1/5.jpg)
+
 - 代码复用，提高代码质量
 ![在这里插入图片描述](doc/image/v1/6.jpg)
+
 ![在这里插入图片描述](doc/image/v1/7.jpg)
 
 
