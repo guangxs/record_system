@@ -1,0 +1,226 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+    <title>仓库档案</title>
+    <link rel="stylesheet" href="layui/css/layui.css">
+
+
+</head>
+<body>
+
+<!-- 你的HTML代码 -->
+<div class="layui-tab layui-tab-brief" lay-filter="docDemoTabBrief">
+    <ul class="layui-tab-title">
+        <li><a href="category_files.html">类别档案</a></li>
+        <li><a href="category_brand_files.html">类别品牌档案</a></li>
+        <li class="layui-this"><a href="warehouse_organization_files.html">仓库档案</a></li>
+        <li><a href="commodity_category_file.html">商品档案</a> </li>
+    </ul>
+</div>
+
+<h1 align="center">仓库档案</h1>
+     <div align="center">
+            <div >
+                <table class="layui-hide" id="test" lay-filter="test3" ></table>
+            </div>
+         </div>
+     
+
+
+<script src="conf.js"></script>
+<script type="text/html" id="barDemo">
+             <a class="layui-btn layui-btn-xs" lay-event="edit">修改/新增</a>
+             <a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del">删除</a>
+        </script>
+
+<!-- 你的HTML代码 -->
+<script src="conf.js"></script>
+<script src="https://apps.bdimg.com/libs/jquery/2.1.4/jquery.min.js"></script>
+<script src="layui/layui.all.js"></script>
+<script>
+    var address = address;
+    var postUrl = address + 'system/WarehouseTransferorderController/';
+
+
+
+    layui.use(['table','layer','laypage','form'],function() {
+
+        var nulldate = {
+            id: '',
+            warehouseId:"",
+            warehouseName: '',
+            warehouseAddress: '',
+            remarks: ''
+        };
+
+        var postData_add_edit = nulldate;
+
+        var table = layui.table;
+        var layer = layui.layer;
+        var data;  //保存数据  
+
+
+        //发送ajax  列表查询ajax
+        function send() {
+            post("list", {});
+        }
+
+        function post(url, obj) {
+            $.ajax({
+                type: "POST",//请求的方式
+                url: postUrl + url,//请求的接口
+                data: obj,//参数（可传可不传递）
+                dataType: "json",//数据类型
+                async: false,
+                success: function (res) {
+                    data = res;
+                    layer.msg(res.message)
+                },
+                error: function (err) {
+                    alert("操作失败")
+                }
+            })
+        }
+
+        var infoTable;
+        var
+            // 表单需要的变量
+            infoOptions = {
+                elem: '#test',
+                // width: 347,
+                limits: Number.MAX_VALUE,
+                cellMinWidth: 80, //全局定义常规单元格的最小宽度，layui 2.2.1 新增
+                cols: [[
+                    //{field: 'id', title: 'ID',width:20, fixed: 'left'}
+                    {  type: 'checkbox', sort: true}
+                    , {field: 'id', title: 'ID', width: 120, align: 'center'}
+                    , {field: 'warehouseId', title: '仓库ID', width: 120, align: 'center', edit:'text'}
+                    , {field: 'warehouseName', title: '仓库名', width: 120, align: 'center', edit:'text'}
+                    , {field: 'warehouseAddress', title: '仓库地址', width: 120, align: 'center', edit:'text'}
+                    ,{field: 'remarks', title: '备注', width: 120, align: 'center', edit:'text'},
+
+                    {fixed: 'right',title: '操作', width:178, align:'center', toolbar: '#barDemo'}
+                ]],
+                data: []
+            };
+
+        // 表格初始化 ------------------
+        function init() {
+            // 列表请求
+            send();
+            var add = {
+                id: '',
+                warehouseId:"",
+                warehouseName: '',
+                warehouseAddress: '',
+                remarks: ''
+            };
+            data.result[data.result.length] = add;
+            // 完成表格数据
+            $.extend(infoOptions, {data: data.result});
+
+            // $.extend(infoOptions, {data: add});
+
+            // layer.msg(JSON.stringify(data.result));
+
+            table.render(infoOptions);
+            data = null;
+        }
+
+        // 页面初始化---------------------------------
+
+        init();
+
+        // 新增修改初始化 ------------------
+        function init_DE (ids){
+            post("delete", ids)
+            // 列表请求
+            send();
+            var add = {
+                id: '',
+                warehouseId:"",
+                warehouseName: '',
+                warehouseAddress: '',
+                remarks: ''
+            };
+            data.result[data.result.length] = add;
+            // 完成表格数据
+            $.extend(infoOptions, {data: data.result});
+
+            table.render(infoOptions);
+
+            data=null;
+        }
+
+
+        var message;
+        //发送ajax  新增修改ajax
+        function sendAE(postData_add_edit){
+            post("edit", postData_add_edit);
+        }
+        // 新增修改初始化 ------------------
+        function init_AE (postData_add_edit){
+            sendAE(postData_add_edit);
+            // 列表请求
+            send();
+            var add = {
+                id: '',
+                warehouseId:"",
+                warehouseName: '',
+                warehouseAddress: '',
+                remarks: ''
+            };
+            data.result[data.result.length] = add;
+            // 完成表格数据
+            $.extend(infoOptions, {data: data.result});
+
+            table.render(infoOptions);
+
+            data=null;
+        }
+        // 监听 单元格，能进行编辑单元格  只有表头加了 edit 属性才能修改  
+        table.on('edit(test3)',function(obj){
+            var data = obj.data;
+
+
+            postData_add_edit.id=data.id;
+            postData_add_edit.warehouseId=data.warehouseId;
+            postData_add_edit.warehouseName = data.warehouseName;
+            postData_add_edit.warehouseAddress = data.warehouseAddress;
+            postData_add_edit.remarks = data.remarks;
+            if (data.warehouseId && data.warehouseName && data.warehouseName && data.warehouseAddress)
+                init_AE (postData_add_edit);
+        });
+
+
+
+
+
+        //  操作  查看 编辑 删除-----------------------------------
+
+        // 监听表格复选框 选择
+        table.on('tool(test3)',function(obj){
+            console.log(obj);
+        });
+        //监听工具条
+        table.on('tool(test3)', function(obj){
+            var data = obj.data;
+            if(obj.event === 'del'){
+                layer.confirm('真的删除行么'+JSON.stringify(data), function(index){
+                    var ids = {'ids': data.id}
+                    init_DE(ids);
+                    obj.del();
+                });
+                // layer.close(index);
+            } else if(obj.event === 'edit'){
+                layer.alert('编辑行：<br>'+ JSON.stringify(data))
+            }
+        });
+
+    });
+</script>
+
+</body>
+</html>

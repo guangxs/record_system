@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.web.modules.categoryFile.mapper.CategoryFileMapper">
+
+    <resultMap id="BaseResultMap" type="com.web.modules.categoryFile.entity.CategoryFile">
+        <id column="category_d" jdbcType="VARCHAR" property="categoryId"/>
+        <result column="category_name" jdbcType="VARCHAR" property="categoryName"/>
+    </resultMap>
+
+    <!--这是一个空的mapper示例，用于复杂sql的封装，便于功能扩展-->
+    <!--这是一个空的mapper示例，用于复杂sql的封装，便于功能扩展-->
+    <!--这是一个空的mapper示例，用于复杂sql的封装，便于功能扩展-->
+
+</mapper>
